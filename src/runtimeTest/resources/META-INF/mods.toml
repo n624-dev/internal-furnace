@@ -1,0 +1,13 @@
+modLoader="javafml"
+loaderVersion="[47,48)"
+license="MIT"
+[[mods]]
+modId="internal_furnace_test"
+version="1.0"
+displayName="Internal Furnace disposable integration driver"
+[[dependencies.internal_furnace_test]]
+modId="internal_furnace"
+mandatory=true
+versionRange="[${mod_version}]"
+ordering="AFTER"
+side="BOTH"

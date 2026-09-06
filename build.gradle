@@ -1,0 +1,74 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies { classpath 'net.minecraftforge.gradle:ForgeGradle:6.0.54' }
+}
+apply plugin: 'java'
+apply plugin: 'net.minecraftforge.gradle'
+
+group = 'dev.n624'
+version = providers.gradleProperty('mod_version').get()
+base { archivesName = 'internal-furnace' }
+java { toolchain.languageVersion = JavaLanguageVersion.of(17) }
+minecraft { mappings channel: 'official', version: '1.20.1' }
+repositories {
+    mavenCentral()
+    flatDir { dirs "${projectDir}/.deps" }
+}
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.10'
+    compileOnly fg.deobf('local:Mine_and_Slash-1.20.1:6.4.7')
+    compileOnly fg.deobf('local:Library_of_Exile-1.20.1:2.1.11')
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+tasks.register('coreTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.n624.internalfurnace.core.CoreTests'
+    args file('src/main/resources/data/internal_furnace/upgrades.psv').absolutePath
+    enableAssertions = true
+}
+tasks.register('editorTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.n624.internalfurnace.core.EditorTests'
+    enableAssertions = true
+}
+tasks.named('check') { dependsOn 'coreTest', 'editorTest' }
+jar {
+    from('LICENSE')
+    manifest {
+        attributes 'Implementation-Title': 'internal-furnace',
+                   'Implementation-Version': project.version,
+                   'Implementation-Vendor': 'n624-dev'
+    }
+    finalizedBy 'reobfJar'
+}
+
+// Opt-in integration driver. This source set is never included in the release JAR.
+sourceSets {
+    runtimeTest {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
+}
+tasks.register('runtimeTestJar', Jar) {
+    dependsOn runtimeTestClasses
+    archiveClassifier = 'runtime-tests'
+    from sourceSets.runtimeTest.output
+    finalizedBy 'reobfRuntimeTestJar'
+}
+reobf { runtimeTestJar { classpath.from(sourceSets.main.output, sourceSets.main.compileClasspath) } }
+
+tasks.named('check') { dependsOn 'runtimeTestClasses' }
+
+tasks.named('processRuntimeTestResources') {
+    inputs.property 'mod_version', project.version
+    filesMatching('META-INF/mods.toml') { expand mod_version: project.version }
+}
