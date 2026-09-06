@@ -1,5 +1,38 @@
 {
   "version": "0.1.0-beta.1",
-  "status": "pending-public-artifact-verification",
-  "baseline": "See VERIFICATION.md and VERIFICATION.ja.md; baseline results are not substituted for the public artifact."
+  "status": "passed",
+  "executedAt": "2026-09-06T01:00:49.507895+00:00",
+  "executor": "Codex",
+  "sourceCommit": "989fa324ded1689b37442beb9594d1269b9f0406",
+  "workflowRun": "https://github.com/n624-dev/internal-furnace/actions/runs/34002499357",
+  "artifact": "internal-furnace-0.1.0-beta.1.jar",
+  "sha256": "6c1743d11984a27493a3caaac218bf3fee3433c6040b53fddaafce116b1d2f05",
+  "environment": {
+    "minecraft": "1.20.1",
+    "forge": "47.4.10",
+    "java": "Temurin 17.0.20.1+1",
+    "mineAndSlash": "6.4.7",
+    "libraryOfExile": "2.1.11",
+    "mowziesMobs": "1.8.2",
+    "server": "disposable dedicated Forge server",
+    "clients": "two real graphical Forge clients, Xvfb/Mesa",
+    "transport": "loopback, offline test identities"
+  },
+  "checks": {
+    "pinnedCleanBuildsWithEqualHash": 2,
+    "coreAssertions": 95604,
+    "editorDragAssertions": 583594,
+    "realMinecraftAssertions": 2489,
+    "twoClientReadOnly": "PASS",
+    "existingDevelopmentSaveFullNbtMatch": "PASS",
+    "visualEditorRendered": "PASS",
+    "productClassesIdenticalToValidatedBaseline": 45,
+    "gradleWrapperLaunch": "PASS"
+  },
+  "serverLogExcerpt": [
+    "[06Sep2026 10:00:02.026] [Server thread/INFO] [dev.n624.internalfurnace.InternalFurnace/]: FURNACE_PERSISTENCE PASS",
+    "[06Sep2026 10:00:02.387] [Server thread/INFO] [dev.n624.internalfurnace.InternalFurnace/]: FURNACE_RUNTIME PASS 2489 assertions",
+    "[06Sep2026 10:00:02.391] [Server thread/INFO] [dev.n624.internalfurnace.InternalFurnace/]: FURNACE_TWO_CLIENT_READONLY PASS"
+  ],
+  "limitations": "Public-artifact packaging/connection/regression checks supplement the baseline gameplay tests described in VERIFICATION.md. No public internet authentication, production deployment or large-player-count soak test."
 }

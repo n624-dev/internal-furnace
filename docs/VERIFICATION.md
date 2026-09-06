@@ -30,3 +30,5 @@ The standalone project changes version/license/metadata and build/documentation 
 Tests establish the listed deterministic and seeded scenarios, not the absence of every possible duplication exploit. Two clients are not a large-player-count soak test. WAN latency, online account authentication, hostile datapacks, exhaustive disk-corruption recovery and unrelated MOD combinations were not exhaustively tested. The exact persistence fixture is paused with zero heat to avoid legitimate online cooling changing a snapshot. Long-term economy and balance need continued playtesting.
 
 Screenshots show the validated gameplay UI; they are not evidence for future versions. The test driver in `src/runtimeTest` provides reproducible test entry points. No deployment files, private world data, third-party JARs or production credentials are included here.
+
+The public artifact also renders the [visual editor](images/public-beta-editor.png) on a real client. All 45 product class entries match the validated baseline byte-for-byte; public runtime assertions and existing-save restoration passed.
